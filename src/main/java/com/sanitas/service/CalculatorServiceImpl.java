@@ -10,4 +10,8 @@ public class CalculatorServiceImpl implements CalculatorService{
     public BigDecimal add(BigDecimal firstNumber, BigDecimal secondNumber) {
         return firstNumber.add(secondNumber);
     }
+    @Override
+    public BigDecimal subtract(BigDecimal firstNumber, BigDecimal secondNumber) {
+        return firstNumber.subtract(secondNumber);
+    }
 }

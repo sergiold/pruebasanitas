@@ -36,4 +36,17 @@ public class CalculatorController {
             throw new InvalidArgumentsException(firstNumber+ " " + secondNumber);
         }
     }
+    @GetMapping("/subtract")
+    public ResponseEntity<String> subtractNumbers(@RequestParam String firstNumber, @RequestParam String secondNumber){
+
+        Optional<BigDecimal> firstN = Utils.convert(firstNumber);
+        Optional<BigDecimal> secondN = Utils.convert(secondNumber);
+        if(firstN.isPresent() && secondN.isPresent()) {
+            BigDecimal result = calculatorService.subtract(firstN.get(), secondN.get());
+            return new ResponseEntity<>(result.toString(), HttpStatus.OK);
+        }
+        else {
+            throw new InvalidArgumentsException(firstNumber+ " " + secondNumber);
+        }
+    }
 }
