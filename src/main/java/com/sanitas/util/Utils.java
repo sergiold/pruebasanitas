@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.Optional;
 import org.apache.commons.lang3.math.NumberUtils;
 
-
 public class Utils {
 
     public static Optional<BigDecimal> convert(String number) {
@@ -14,4 +13,5 @@ public class Utils {
             return Optional.empty();
         }
     }
+
 }
