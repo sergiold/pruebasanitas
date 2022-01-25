@@ -50,7 +50,7 @@ public class CalculatorControllerTest {
 
         when(calculatorService.subtract(any(),any())).thenReturn(BigDecimal.ONE);
 
-        mockMvc.perform(get("/calculator/add?firstNumber=10&secondNumber=-13")).andExpect(status().isOk());
+        mockMvc.perform(get("/calculator/subtract?firstNumber=10&secondNumber=-13")).andExpect(status().isOk());
     }
 
     @Test
