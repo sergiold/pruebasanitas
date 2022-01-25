@@ -7,7 +7,10 @@ import java.math.BigDecimal;
 @Service
 public class CalculatorServiceImpl implements CalculatorService{
 
-    private TracerImpl tracer = new TracerImpl();
+    private TracerImpl tracer;
+    public CalculatorServiceImpl(TracerImpl tracer){
+        this.tracer=tracer;
+    }
     @Override
     public BigDecimal add(BigDecimal firstNumber, BigDecimal secondNumber) {
         tracer.trace("Calling add service with "+ firstNumber.toString()+" and "+ secondNumber.toString()+ " numbers");

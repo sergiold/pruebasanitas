@@ -19,43 +19,45 @@ import java.util.Optional;
 public class CalculatorController {
 
     private CalculatorService calculatorService;
+    private TracerImpl tracer;
 
-    public CalculatorController(CalculatorService calculatorService){
+
+    public CalculatorController(CalculatorService calculatorService, TracerImpl tracer) {
         this.calculatorService = calculatorService;
+        this.tracer = tracer;
     }
 
-    private TracerImpl tracer = new TracerImpl();
 
     @GetMapping("/add")
-    public ResponseEntity<String> addNumbers(@RequestParam String firstNumber, @RequestParam String secondNumber){
+    public ResponseEntity<String> addNumbers(@RequestParam String firstNumber, @RequestParam String secondNumber) {
 
         tracer.trace("addNumbers called.");
         Optional<BigDecimal> firstN = Utils.convert(firstNumber);
         Optional<BigDecimal> secondN = Utils.convert(secondNumber);
-        if(firstN.isPresent() && secondN.isPresent()) {
-            BigDecimal result = calculatorService.add(firstN.get(), secondN.get());
-            tracer.trace("addNumbers OK Response");
-            return new ResponseEntity<>(result.toString(), HttpStatus.OK);
-        }
-        else {
+        if (!firstN.isPresent() || !secondN.isPresent()) {
             tracer.trace("addNumbers threw exception");
-            throw new InvalidArgumentsException(firstNumber+ " " + secondNumber);
+            throw new InvalidArgumentsException(firstNumber + " " + secondNumber);
         }
+
+        BigDecimal result = calculatorService.add(firstN.get(), secondN.get());
+        tracer.trace("addNumbers OK Response");
+        return new ResponseEntity<>(result.toString(), HttpStatus.OK);
+
     }
+
     @GetMapping("/subtract")
-    public ResponseEntity<String> subtractNumbers(@RequestParam String firstNumber, @RequestParam String secondNumber){
+    public ResponseEntity<String> subtractNumbers(@RequestParam String firstNumber, @RequestParam String secondNumber) {
 
         tracer.trace("subtractNumbers called.");
         Optional<BigDecimal> firstN = Utils.convert(firstNumber);
         Optional<BigDecimal> secondN = Utils.convert(secondNumber);
-        if(firstN.isPresent() && secondN.isPresent()) {
-            BigDecimal result = calculatorService.subtract(firstN.get(), secondN.get());
-            tracer.trace("substractNumbers OK Response");
-            return new ResponseEntity<>(result.toString(), HttpStatus.OK);
-        }
-        else {
+        if (!firstN.isPresent() || !secondN.isPresent()) {
             tracer.trace("substractNumbers threw exception");
-            throw new InvalidArgumentsException(firstNumber+ " " + secondNumber);
+            throw new InvalidArgumentsException(firstNumber + " " + secondNumber);
         }
+        BigDecimal result = calculatorService.subtract(firstN.get(), secondN.get());
+        tracer.trace("substractNumbers OK Response");
+        return new ResponseEntity<>(result.toString(), HttpStatus.OK);
+
     }
 }
